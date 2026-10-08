@@ -1,4 +1,5 @@
 import { PessoaBase } from './PessoaBase.js';// certo
+import { TitulacaoEnum } from './Dominio.js';
 
 export class Professor extends PessoaBase {
     #salario

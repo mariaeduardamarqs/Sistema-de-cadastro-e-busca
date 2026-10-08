@@ -8,11 +8,9 @@ export class GestorAcademico {
 
     cadastrarAluno(nome, cpf, email, idade, curso) {
         try {
-            console.log(`\n[ATENDIMENTO VIRTUAL] Iniciando comunicação com o servidor...`);
-
             const alunoA = new Aluno(nome, cpf, email, idade, curso);
-            alunoA.verificarIdade();
-
+            this.aluno.push(alunoA);//pq push
+           // alunoA.verificarIdade();
             console.log(" Seu cadastro foi confirmado e gerado com sucesso!");
 
        }catch(excecaoCapturada) {
@@ -22,17 +20,13 @@ export class GestorAcademico {
         }finally {
             console.log(" Operação de cadastro finalizada. Guichê liberado para o próximo usuário da fila.")
         }
-
-        
 }
 
     cadastrarProfessor(nome, cpf, email, salario, titulacao) {
         try {
-            console.log(`\n[ATENDIMENTO VIRTUAL] Iniciando comunicação com o servidor...`);
-
             const professorP = new Professor(nome, cpf, email, salario, titulacao);
-            professorP.verificarSalario
-
+            this.professor.push(professorP);
+            //professorP.verificarSalario
             console.log(" Seu cadastro foi confirmado e gerado com sucesso!");
        
        
@@ -47,35 +41,39 @@ export class GestorAcademico {
    
 
         buscarPorCpf(cpf) {
-            for(const aluno of this.aluno) {
-                if(aluno.cpf === cpf) {
+            const pessoaEncontrada = 
+            this.aluno.find(a => a.cpf === cpf) || 
+            this.professor.find(p => p.cpf === cpf);
 
-                    console.log("\nALUNO ENCONTRADO");
-                    console.log("Nome:", aluno.nome)
-                    console.log("CPF:", aluno.cpf);
-                    console.log("Email:", aluno.email);
-                    console.log("Salario:", aluno.salario);
-                    console.log("Curso:", aluno.curso);
+                if(!pessoaEncontrada ) {
+                    console.log("\nNenhum cadastro encontrado!");
                     return;
                 }
-            }
-           
+
+                console.log("\n--- DADOS DO CADASTRO ---");
+                console.log(`Nome: ${pessoaEncontrada.nome}`);
+                console.log(`CPF: ${pessoaEncontrada.cpf}`);
+                console.log(`E-mail: ${pessoaEncontrada.email}`);
+        
+                
+                if(pessoaEncontrada instanceof Aluno){
+                    console.log(`Tipo: Aluno`);                  
+                    console.log(`CPF: ${pessoaEncontrada.cpf}`);
+                    console.log(`Email: ${pessoaEncontrada.email}`);
+                    console.log(`Curso: ${pessoaEncontrada.curso}`);
+                    console.log(`Status: ${pessoaEncontrada.status}`);
+                
+                } else if (pessoaEncontrada instanceof Professor) {
+                    console.log(`Tipo: Professor`);
+                    console.log(`Salário: R$ ${pessoaEncontrada.salario.toFixed(2)}`);
+                    console.log(`Titulação: ${pessoaEncontrada.titulacao}`);
+                }
             
-            for(const professor of this.professor) {
-                if(professor.cpf === cpf) {
-
-                    console.log("\nPROFESSOR ENCONTRADO");
-                    console.log("Nome:", professor.nome);
-                    console.log("CPF:", professor.cpf);
-                    console.log("Email:", professor.email);
-                    console.log("Salário:", professor.salario);
-                    console.log("Titulação:", professor.titulacao);
-                    return;
                 }
-            }
-        }  
+            
+        
     
-    traduzirCodigoDeErro(codigoTecnicoDoErro) {
+        traduzirCodigoDeErro(codigoTecnicoDoErro) {
         switch (codigoTecnicoDoErro) {
             case "ERR_CLASSE_ABSTRATA":
                 console.log("AVISO: Não é possível cadastrar uma pessoa genérica no sistema.");
@@ -101,6 +99,8 @@ export class GestorAcademico {
         }
     }
 }
+    
+
     
 
 

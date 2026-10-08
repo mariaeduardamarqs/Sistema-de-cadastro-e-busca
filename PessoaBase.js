@@ -8,17 +8,17 @@ export class PessoaBase {
         if(new.target === PessoaBase){
             throw new Error("ERR_CLASSE_ABSTRATA");
         }
-        this.#nome = nome;
+        this.#nome = nome;;
         this.#cpf = cpf;
         this.#email = email;
     }
     get nome() {return this.#nome};
 
     validarNome(nome){
-        if( typeof nome !== "string" || nome.trim() === ""){
+        if( !nome || nome.trim() === ""){
             throw new Error("ERR_NOME_VAZIO");
         }
-        this.#nome = nome;
+        this.#nome = nome.trim();
     } 
 
     get cpf() {return this.#cpf};
